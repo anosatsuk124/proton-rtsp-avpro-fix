@@ -1,0 +1,61 @@
+# proton-rtsp with the AVPro RTSP live playback fix (patched mfmediaengine.dll).
+# Sources next to this file are symlinks into the repository; makepkg follows them.
+
+pkgname=proton-rtsp-avpro-fix-bin
+_release=proton-rtsp-11.0-20260609-4
+_toolname=${_release}-avpro-fix
+pkgver=11.0.20260609.4
+pkgrel=1
+pkgdesc='proton-rtsp with a patched mfmediaengine.dll so AVPro (VRChat) plays RTSP live streams'
+arch=('x86_64')
+url='https://github.com/SpookySkeletons/proton-rtsp'
+license=('LGPL-2.1-or-later' 'BSD-3-Clause' 'MIT' 'MPL-2.0' 'custom')
+depends=('python'
+  'vulkan-icd-loader'
+  'lib32-vkd3d'
+  'lib32-libva'
+  'lib32-libtheora'
+  'lib32-libvdpau'
+  'gst-plugins-bad-libs'
+  'libjpeg-turbo'
+  'graphene'
+  'lib32-libjpeg-turbo'
+  'lib32-libgudev'
+  'lib32-openssl'
+  'lib32-libusb')
+optdepends=('steam: select the tool in the game compatibility settings'
+  'lib32-vulkan-icd-loader: dxvk dependency for 32bit prefixes'
+  'vulkan-driver: driver used by dxvk')
+options=(!strip !debug emptydirs)
+source=("${_release}.tar.gz::https://github.com/SpookySkeletons/proton-rtsp/releases/download/proton-rtsp-11.0-20260609-4/proton-rtsp-11.0-20260609-4.tar.gz"
+  'patch_binary.py'
+  'make-compat-tool.sh'
+  'versions.lock.json'
+  '0001-live-network-state.patch'
+  'patch.md'
+  'THIRD_PARTY.md')
+sha256sums=('b52f231a116e9d0f1f9d19f4e870ff84392f35daae02391a6f79fdf9ca583415'
+  '99131f0cd0684f8a360e3ecafd2a1783fccc144e5194930caf4dc9b8e03bae43'
+  'c9d410a77b966d889fe2ae931516c9f93894a3a7619532ce84e096a665021270'
+  '9592a2e027fb6180d5168ac9c5d4bf104628fa7bfce2628dea984a178ece102f'
+  '472c9b3a511f471abad555a1dc77d26892aacd2be5c0a73b9ac394b13d2eb412'
+  'c7a42adfaaf972902b7ab2b5d1935fc639a2efaee584ae030afd8dce7c3f7307'
+  '9b449f78111893558637870005ad93fd07aabb9f5557e31795fb763a858faa37')
+
+_protondir=usr/share/steam/compatibilitytools.d
+_licensedir=usr/share/licenses/${pkgname}
+_docdir=usr/share/doc/${pkgname}
+
+build() {
+  rm -rf "${srcdir}/out"
+  bash "${srcdir}/make-compat-tool.sh" --from-dir "${srcdir}/${_release}" --out "${srcdir}/out" --name "${_toolname}"
+}
+
+package() {
+  install -d "${pkgdir}/${_protondir}" "${pkgdir}/${_licensedir}" "${pkgdir}/${_docdir}"
+  install -m 0644 "${srcdir}/0001-live-network-state.patch" "${srcdir}/patch.md" "${srcdir}/THIRD_PARTY.md" "${pkgdir}/${_docdir}/"
+  cp -a "${srcdir}/out/${_toolname}" "${pkgdir}/${_protondir}/"
+  install -m 0644 "${pkgdir}/${_protondir}/${_toolname}/LICENSE" "${pkgdir}/${_licensedir}/LICENSE"
+  install -m 0644 "${pkgdir}/${_protondir}/${_toolname}/LICENSE.OFL" "${pkgdir}/${_licensedir}/LICENSE.OFL"
+  install -m 0644 "${pkgdir}/${_protondir}/${_toolname}/PATENTS.AV1" "${pkgdir}/${_licensedir}/PATENTS.AV1"
+}

@@ -1,0 +1,32 @@
+{
+  "proton": {
+    "name": "proton-rtsp-11.0-20260609-4",
+    "commit": "2faa9d3640bdd0139fc77d52bfd45db6b3807acd",
+    "url": "https://github.com/SpookySkeletons/proton-rtsp/releases/download/proton-rtsp-11.0-20260609-4/proton-rtsp-11.0-20260609-4.tar.gz",
+    "archive_sha256": "b52f231a116e9d0f1f9d19f4e870ff84392f35daae02391a6f79fdf9ca583415",
+    "dll": "files/lib/wine/x86_64-windows/mfmediaengine.dll",
+    "original_sha256": "93df6c48dc46c6927411234e12c11e4a733a1c18e9b7d6609d826b7b6825ab39",
+    "patched_sha256": "a0c4a0a26e50158a12dca61971c47371191e67d606dfbd2ee0d2e970994111ed"
+  },
+  "wine": {
+    "url": "https://github.com/SpookySkeletons/wine.git",
+    "commit": "fe6a2883bbe62967cd1da5044b7ceaf2c9a43dfe",
+    "source_date_epoch": 1788377970
+  },
+  "sdk": "registry.gitlab.steamos.cloud/proton/steamrt4/sdk/x86_64@sha256:97526b794ce1a9bed5f891084462260b3a02399569f7438a3a57b5a253001db9",
+  "mediamtx": {
+    "version": "1.19.3",
+    "image": "bluenviron/mediamtx@sha256:7797ed3df88df21e8c04ecd0aff08ce49a5232d1db453e51f5480ef36bc80865"
+  },
+  "avpro_native_version": "3.4.0f1-ultra",
+  "vulkan_registry": {
+    "vk": {
+      "url": "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v1.4.339/xml/vk.xml",
+      "sha256": "5ebddf02358d937d8ce9bd997b20d2be9693e48320e1a060056c26b9cfe15438"
+    },
+    "video": {
+      "url": "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v1.4.339/xml/video.xml",
+      "sha256": "4480ab87c8ee6d561376fa83820af1071f85ff7fa1a26b21f521717fa04d5809"
+    }
+  }
+}

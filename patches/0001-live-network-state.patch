@@ -1,0 +1,17 @@
+--- a/dlls/mfmediaengine/main.c
++++ b/dlls/mfmediaengine/main.c
+@@ -1813,6 +1813,14 @@
+     struct media_engine *engine = impl_from_IMFMediaEngineEx(iface);
+ 
+     TRACE("%p.\n", iface);
++
++    /* A live source keeps receiving media after the source has been resolved.
++     * Reporting IDLE while duration is infinite causes AVPro's live-source
++     * recovery logic to Pause/Load immediately after Play. Load is currently
++     * unimplemented here, leaving native playback state inconsistent.
++     */
++    if (engine->network_state == MF_MEDIA_ENGINE_NETWORK_IDLE && engine->duration == INFINITY)
++        return MF_MEDIA_ENGINE_NETWORK_LOADING;
+ 
+     return engine->network_state;
+ }
